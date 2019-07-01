@@ -8,14 +8,12 @@ import listado from '../datos';
 })
 export class MostrarListadoComponent implements OnInit {
   personas = [];
-  listadoAgrupado: any;
 
   constructor() { }
 
   ngOnInit() {
-    //console.log(listado.reduce((conteo, listado) => conteo + listado.puntos, 0));
-    this.listadoAgrupado = listado.reduce((m, d) => {
-      if(!m[d.nombre]) {
+    const listadoAgrupado = listado.reduce((m, d) => {
+      if (!m[d.nombre]) {
         m[d.nombre] = {...d, count: 1};
         return m;
       }
@@ -25,7 +23,16 @@ export class MostrarListadoComponent implements OnInit {
       return m;
     }, []);
 
-    console.log(this.listadoAgrupado);
+    this.personas = Object.keys(listadoAgrupado).map(k => {
+      const item  = listadoAgrupado[k];
+      return {
+          nombre: item.nombre,
+          puntos: item.puntos,
+          count: item.count
+      };
+    });
+
+    console.log(this.personas);
 
   }
 
